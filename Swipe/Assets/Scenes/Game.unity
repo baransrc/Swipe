@@ -202,6 +202,11 @@ PrefabInstance:
       propertyPath: colorPalette
       value: 
       objectReference: {fileID: 400873926}
+    - target: {fileID: 4301796262189121134, guid: f821e1e1230dc554299257da5a14fc4d,
+        type: 3}
+      propertyPath: gameController
+      value: 
+      objectReference: {fileID: 400873924}
     - target: {fileID: 4301796263147776730, guid: f821e1e1230dc554299257da5a14fc4d,
         type: 3}
       propertyPath: sprite
@@ -356,7 +361,7 @@ PrefabInstance:
     - target: {fileID: 4301796263108951928, guid: f821e1e1230dc554299257da5a14fc4d,
         type: 3}
       propertyPath: m_Time
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4301796263099658512, guid: f821e1e1230dc554299257da5a14fc4d,
         type: 3}
@@ -542,8 +547,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400873925}
-  - component: {fileID: 400873924}
   - component: {fileID: 400873926}
+  - component: {fileID: 400873924}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -564,6 +569,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   touchDetector: {fileID: 1342681467}
+  colorPalette: {fileID: 400873926}
+  itemPrefab: {fileID: 602307949951888480, guid: 8c73af5cec7159742a640cf12a64f793,
+    type: 3}
 --- !u!4 &400873925
 Transform:
   m_ObjectHideFlags: 0

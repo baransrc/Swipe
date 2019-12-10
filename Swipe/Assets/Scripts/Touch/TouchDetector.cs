@@ -11,7 +11,7 @@ public class TouchDetector : MonoBehaviour
     public MotherReceiver motherReceiver;
     public Camera touchDetectorCamera;
     public CameraShake cameraShaker;
-    public ColorPalette colorPalette;
+    public GameController gameController;
     public delegate void ReceivedTouch(); 
     public event ReceivedTouch OnReceivedTouch;
 

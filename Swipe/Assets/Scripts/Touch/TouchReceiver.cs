@@ -81,12 +81,12 @@ public class TouchReceiver : MonoBehaviour
 
    private void ApplySpriteColor(float alpha = 1f)
    {
-      sprite.color = touchDetector.colorPalette.GetColor(itemColor, alpha);
+      sprite.color = touchDetector.gameController.colorPalette.GetColor(itemColor, alpha);
    }
 
    public Color GetColor()
    {
-      return touchDetector.colorPalette.GetColor(itemColor);
+      return touchDetector.gameController.colorPalette.GetColor(itemColor);
    }
 
    protected virtual void Awake()
