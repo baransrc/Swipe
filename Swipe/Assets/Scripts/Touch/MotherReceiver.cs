@@ -10,12 +10,12 @@ public class MotherReceiver : TouchReceiver
 
     public override void LockTouch()
     {
-        
+        return;
     }
 
     public override void UnlockTouch()
     {
-      
+        return;
     }
 
     public bool CanSnap(TouchReceiver receiver)
@@ -50,11 +50,11 @@ public class MotherReceiver : TouchReceiver
     {
         if (receiver == null) return;
 
-        var startColor = receiver.id == id ? color : receiver.color;
+        var startColor = receiver.id == id ? GetColor() : receiver.GetColor();
         startColor.a = 1;
 
-        var endColor = lastTouchedReceiver == null ? color : lastTouchedReceiver.color;
-        endColor = receiver.id == id ? color : endColor;
+        var endColor = lastTouchedReceiver == null ? GetColor() : lastTouchedReceiver.GetColor();
+        endColor = receiver.id == id ? GetColor() : endColor;
         endColor.a = 1;
 
         trail.startColor = startColor;
@@ -96,6 +96,6 @@ public class MotherReceiver : TouchReceiver
     protected override void Awake()
     {
         base.Awake();
-        lastColor = color;
+//        lastColor = color;
     }
 }

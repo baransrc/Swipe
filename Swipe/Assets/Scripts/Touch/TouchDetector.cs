@@ -10,21 +10,20 @@ public class TouchDetector : MonoBehaviour
     public TouchReceiver lastTouchedReceiver;
     public MotherReceiver motherReceiver;
     public Camera touchDetectorCamera;
-
-    private bool _canReceiveTouch;
-    
     public CameraShake cameraShaker;
-
-    public delegate void ReceivedTouch();
+    public ColorPalette colorPalette;
+    public delegate void ReceivedTouch(); 
     public event ReceivedTouch OnReceivedTouch;
 
-    [SerializeField] private float touchRadius;
+    private float touchRadius;
     private bool _shouldChangeColor;
+    private bool _canReceiveTouch;
 
     public void LockTouch()
     {
         _canReceiveTouch = false;
         motherReceiver.LockTouch();
+        
         foreach (var touchReceiver in touchReceivers)
         {
             touchReceiver.LockTouch();
@@ -35,6 +34,7 @@ public class TouchDetector : MonoBehaviour
     {
         _canReceiveTouch = true;
         motherReceiver.UnlockTouch();
+        
         foreach (var touchReceiver in touchReceivers)
         {
             touchReceiver.UnlockTouch();
@@ -126,11 +126,6 @@ public class TouchDetector : MonoBehaviour
     public float GetTouchRadius()
     {
         return touchRadius;
-    }
-
-    public Vector3 GetPosition()
-    {
-        return transform.position;
     }
 
     private Vector3 CalculateTouchReceiverPosition(Vector3 position)
