@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Xml;
 using Gameplay;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
@@ -11,8 +13,8 @@ public class Item : MonoBehaviour
     private int _layerCount;
     private int _itemId;
     private GameController _gameController;
-
     public SpriteRenderer spriteRenderer;
+    public TextMeshPro layerCountDisplay;
     
 
     public void Initialize(GameController gameController, ItemColor itemColor, Vector2 size, int layerCount)
@@ -22,10 +24,20 @@ public class Item : MonoBehaviour
         _itemColor = itemColor;
         _size = size;
         _layerCount = layerCount;
-
+        
+        AlterLayerCount(0);
         spriteRenderer.color = _gameController.colorPalette.GetColor(_itemColor);
     }
 
+    public void AlterLayerCount(int valueToAdd)
+    {
+        _layerCount += valueToAdd;
+        
+        if (_layerCount < 0) _layerCount = 0;
+        
+        layerCountDisplay.SetText("{0}", _layerCount);
+    }
+    
     public void SetPosition(float x, float y)
     {
         transform.position = new Vector3(x, y, 0f);
@@ -42,8 +54,13 @@ public class Item : MonoBehaviour
     }
 
     public void Shatter()
-    {
+    {    
+        AlterLayerCount(-1);
         
+        if (_layerCount != 0) return;
+        
+        // Play Shatter animation
+        // Send to pool
     }
 
     public int GetItemId()

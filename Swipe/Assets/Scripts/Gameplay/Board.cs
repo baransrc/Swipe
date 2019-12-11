@@ -18,6 +18,13 @@ public class Board
       _items.Add(item);
    }
 
+   public Item GetRandomItem()
+   {
+      if (_items.Count <= 0) return null;
+
+      return _items[Random.Range(0, _items.Count)];
+   }
+   
    public Item GetLowestItem()
    {
       if (_items.Count <= 0) return null;

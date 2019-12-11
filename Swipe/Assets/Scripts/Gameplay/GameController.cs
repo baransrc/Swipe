@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Gameplay;
 using Unity.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
@@ -22,15 +23,14 @@ public class GameController : MonoBehaviour
         for (var i = 0; i < 15; i++)
         {
             var previousItem = board.GetHighestItem();
-            var position = previousItem != null ? previousItem.GetPosition().y + 1.6f : -1.5f;
+            var position = previousItem != null ? previousItem.GetPosition().y + 1.75f : -1.5f;
             var itemGameObject = Instantiate(itemPrefab, new Vector3(0, position, 0), Quaternion.identity);
             var item = itemGameObject.GetComponent<Item>();
-            item.Initialize(this, Utilities.EnumExtensions.GetRandomValue<ItemColor>(), Vector2.one, 1);
+            item.Initialize(this, Utilities.EnumExtensions.GetRandomValue<ItemColor>(), Vector2.one, Random.Range(0, 100));
             board.AddItem(item);
         }
     }
     // Debug
-    
     
     
     public int GetItemId()
@@ -80,5 +80,10 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         CreateItems();
+    }
+
+    private void Update()
+    {
+       
     }
 }
