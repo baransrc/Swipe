@@ -21,13 +21,13 @@ namespace Gameplay.Item
     public TextMeshPro layerCountDisplay;
 
 
-    public void Initialize(GameController gameController, ItemColor itemColor, int layerCount)
+    public void Initialize(GameController gameController, int layerCount,  ItemColor itemColor = ItemColor.Colorless)
     {
         _gameController = gameController;
         _itemId = _gameController.GetItemId();
-        _itemColor = itemColor;
         _layerCount = layerCount;
         
+        ChangeItemColor(itemColor);
         AlterLayerCount(0);
         DetermineColor();
     }
@@ -67,13 +67,15 @@ namespace Gameplay.Item
         Destroy(gameObject);
     }
 
-    public void Shatter()
-    {    
+    public void Shatter(ItemColor inputItemColor)
+    {
+        if (inputItemColor != _itemColor) return;
+        
         AlterLayerCount(-1);
 
         if (_layerCount != 0)
         {
-            _itemColor = Utilities.EnumExtensions.GetRandomValue<ItemColor>();
+            ChangeItemColor();
             DetermineColor();
             return;
         }
@@ -84,9 +86,39 @@ namespace Gameplay.Item
         Recycle();
     }
 
+    private void ChangeItemColor(ItemColor newItemColor = ItemColor.Colorless)
+    {
+        if (newItemColor != ItemColor.Colorless)
+        {
+            _itemColor = newItemColor;
+            DetermineColor();
+            
+            return;
+        }
+
+        var currentItemColor = _itemColor;
+        var itemColors = new []{ItemColor.Blue, ItemColor.Green, ItemColor.Red, ItemColor.Yellow};
+
+        var itemAbove = _gameController.board.GetItemRelativeTo(this, 1); // Get item above
+        var aboveItemColor = itemAbove == null ? currentItemColor : itemAbove.GetItemColor();
+            
+        var itemBelow = _gameController.board.GetItemRelativeTo(this, -1); // Get item below
+        var belowItemColor = itemBelow == null ? currentItemColor : itemBelow.GetItemColor();
+        
+        while (_itemColor == currentItemColor || _itemColor == aboveItemColor || _itemColor == belowItemColor)
+        {
+            _itemColor = itemColors[Random.Range(0, itemColors.Length)];
+        }
+    }
+
     public int GetItemId()
     {
         return _itemId;
+    }
+    
+    public ItemColor GetItemColor()
+    {
+        return _itemColor;
     }
     
     // Start is called before the first frame update

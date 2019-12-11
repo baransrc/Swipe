@@ -3,15 +3,29 @@
 public class FallManager : MonoBehaviour
 {
     public GameController gameController;
+    public const float Threshold = -1f;
     private const float Padding = 1.75f;
-    private const float FallSpeed = 5f;
-    private const float Threshold = -1f;
+    private const float FallSpeed = 1.3f;
+    private int _fallCounter;
+    
+    public void LockFall()
+    {
+        _fallCounter++;
+    }
+
+    public void UnlockFall()
+    {
+        _fallCounter--;
+        if (_fallCounter < 0) _fallCounter = 0;
+    }
 
     public void ManageFalls()
     {
-        var itemCount = gameController.board.GetItemCount();
-        var velocity = -1 * FallSpeed * Time.deltaTime; 
+        if (_fallCounter > 0) return;
 
+        var itemCount = gameController.board.GetItemCount();
+        var velocity = -1 * FallSpeed * Time.deltaTime;
+        
         for (int i = 0; i < itemCount; i++)
         {
             var currentItem = gameController.board.GetItem(i);

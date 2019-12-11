@@ -571,6 +571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   touchDetector: {fileID: 1342681467}
   colorPalette: {fileID: 400873926}
+  fallManager: {fileID: 400873927}
   itemPrefab: {fileID: 602307949951888480, guid: 8c73af5cec7159742a640cf12a64f793,
     type: 3}
 --- !u!4 &400873925

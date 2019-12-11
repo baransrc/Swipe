@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using Gameplay;
 using Gameplay.Item;
 using Unity.Collections;
@@ -12,37 +13,10 @@ public class GameController : MonoBehaviour
     public ColorPalette colorPalette;
     public Board board;
     private int _itemId;
+    private const int boardSize = 15;
     
-    
-    // Debug
+    // For Now:
     public GameObject itemPrefab;
-
-    public void CreateItems()
-    {
-        var padding = 1f;
-        
-        for (var i = 0; i < 10; i++)
-        {
-            var previousItem = board.GetHighestItem();
-            var position = previousItem != null ? previousItem.GetPosition().y + 1f : 30.5f;
-            var itemGameObject = Instantiate(itemPrefab, new Vector3(0, position, 0), Quaternion.identity);
-            
-            var item = itemGameObject.GetComponent<Item>();
-            item.Initialize(this, Utilities.EnumExtensions.GetRandomValue<ItemColor>(), Random.Range(0, 100));
-            board.AddItem(item);
-        }
-    }
-
-    public void DecreaseLayerOfAnItem()
-    {
-        var item = board.GetRandomItem();
-
-        if (item == null) return;
-
-        item.Shatter();
-    }
-    // Debug
-    
     
     public int GetItemId()
     {
@@ -56,6 +30,8 @@ public class GameController : MonoBehaviour
         _itemId = -1;
         
         board = new Board();
+        
+        CreateItems(boardSize);
     }
 
     public void LockTouch()
@@ -71,6 +47,42 @@ public class GameController : MonoBehaviour
     public void ProcessTouch()
     {
         // Shatter lowest item if activated color and the color of the lowest item is same.
+        var currentColor = touchDetector.lastTouchedReceiver.itemColor;
+        var item = board.GetItem(0);
+
+        if (item == null) return;
+    
+        item.Shatter(currentColor);
+        
+        CreateItems(Mathf.Max(boardSize - board.GetItemCount(), 0));
+    }
+    
+    public void CreateItems(int count)
+    {
+        var padding = 1f;
+        
+        for (var i = 0; i < count; i++)
+        {
+            var previousItem = board.GetItem(board.GetItemCount() - 1); // Get highest item.
+            var position = previousItem != null ? previousItem.GetPosition().y + 1f : 6f;
+            var itemGameObject = Instantiate(itemPrefab, new Vector3(0, position, 0), Quaternion.identity);
+            
+            var item = itemGameObject.GetComponent<Item>();
+            board.AddItem(item);
+            item.Initialize(this, Random.Range(1, 4));
+        }
+    }
+
+    public void CheckForEndCondition()
+    {
+        var item = board.GetItem(0);
+
+        if (item == null) return;
+
+        if (item.GetPosition().y <= FallManager.Threshold)
+        {
+            board.Clear(); // For now 
+        }
     }
     
     private void OnEnable()
@@ -90,7 +102,6 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        CreateItems();
     }
 
     private void Update()
