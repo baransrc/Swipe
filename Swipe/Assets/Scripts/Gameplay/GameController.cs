@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gameplay;
+using Gameplay.Item;
 using Unity.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -20,15 +21,25 @@ public class GameController : MonoBehaviour
     {
         var padding = 1f;
         
-        for (var i = 0; i < 15; i++)
+        for (var i = 0; i < 10; i++)
         {
             var previousItem = board.GetHighestItem();
-            var position = previousItem != null ? previousItem.GetPosition().y + 1.75f : -1.5f;
+            var position = previousItem != null ? previousItem.GetPosition().y + 1f : 30.5f;
             var itemGameObject = Instantiate(itemPrefab, new Vector3(0, position, 0), Quaternion.identity);
+            
             var item = itemGameObject.GetComponent<Item>();
-            item.Initialize(this, Utilities.EnumExtensions.GetRandomValue<ItemColor>(), Vector2.one, Random.Range(0, 100));
+            item.Initialize(this, Utilities.EnumExtensions.GetRandomValue<ItemColor>(), Random.Range(0, 100));
             board.AddItem(item);
         }
+    }
+
+    public void DecreaseLayerOfAnItem()
+    {
+        var item = board.GetRandomItem();
+
+        if (item == null) return;
+
+        item.Shatter();
     }
     // Debug
     
@@ -84,6 +95,5 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-       
     }
 }

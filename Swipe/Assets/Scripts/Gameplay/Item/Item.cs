@@ -1,32 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Xml;
 using Gameplay;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour
+namespace Gameplay.Item
+{
+ public class Item : MonoBehaviour
 {
     private ItemColor _itemColor;
     private Vector2 _size;
     private int _layerCount;
     private int _itemId;
     private GameController _gameController;
+
     public SpriteRenderer spriteRenderer;
     public TextMeshPro layerCountDisplay;
-    
 
-    public void Initialize(GameController gameController, ItemColor itemColor, Vector2 size, int layerCount)
+
+    public void Initialize(GameController gameController, ItemColor itemColor, int layerCount)
     {
         _gameController = gameController;
         _itemId = _gameController.GetItemId();
         _itemColor = itemColor;
-        _size = size;
         _layerCount = layerCount;
         
         AlterLayerCount(0);
-        spriteRenderer.color = _gameController.colorPalette.GetColor(_itemColor);
+        DetermineColor();
     }
 
     public void AlterLayerCount(int valueToAdd)
@@ -36,6 +39,11 @@ public class Item : MonoBehaviour
         if (_layerCount < 0) _layerCount = 0;
         
         layerCountDisplay.SetText("{0}", _layerCount);
+    }
+
+    public void DetermineColor()
+    {
+        spriteRenderer.color = _gameController.colorPalette.GetColor(_itemColor);
     }
     
     public void SetPosition(float x, float y)
@@ -48,19 +56,32 @@ public class Item : MonoBehaviour
         return transform.position;
     }
     
-    public void Fall()
+    public void Fall(float velocity)
     {
-        
+        transform.position = new Vector3(0, transform.position.y + velocity, 0);
+    }
+
+    public void Recycle()
+    {
+        _gameController.board.PopItem(this);
+        Destroy(gameObject);
     }
 
     public void Shatter()
     {    
         AlterLayerCount(-1);
-        
-        if (_layerCount != 0) return;
+
+        if (_layerCount != 0)
+        {
+            _itemColor = Utilities.EnumExtensions.GetRandomValue<ItemColor>();
+            DetermineColor();
+            return;
+        }
         
         // Play Shatter animation
         // Send to pool
+        
+        Recycle();
     }
 
     public int GetItemId()
@@ -79,4 +100,8 @@ public class Item : MonoBehaviour
     {
         
     }
+}   
+
 }
+
+

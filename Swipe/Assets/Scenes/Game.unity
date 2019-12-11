@@ -361,7 +361,7 @@ PrefabInstance:
     - target: {fileID: 4301796263108951928, guid: f821e1e1230dc554299257da5a14fc4d,
         type: 3}
       propertyPath: m_Time
-      value: 0.5
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 4301796263099658512, guid: f821e1e1230dc554299257da5a14fc4d,
         type: 3}
@@ -549,6 +549,7 @@ GameObject:
   - component: {fileID: 400873925}
   - component: {fileID: 400873926}
   - component: {fileID: 400873924}
+  - component: {fileID: 400873927}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -604,6 +605,19 @@ MonoBehaviour:
   red: {r: 0.827451, g: 0.19607843, b: 0.10980392, a: 0}
   yellow: {r: 0.95686275, g: 0.93333334, b: 0.078431375, a: 1}
   colorless: {r: 0.7019608, g: 0.7019608, b: 0.7019608, a: 1}
+--- !u!114 &400873927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400873923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b0253b0bad47f4fb868ebf9103beb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 400873924}
 --- !u!114 &1342681467 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4301796262189121134, guid: f821e1e1230dc554299257da5a14fc4d,
