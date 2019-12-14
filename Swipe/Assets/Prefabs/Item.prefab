@@ -96,7 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 602307949951888483}
   layerCountDisplay: {fileID: 5922331046535551738}
-  trailRenderer: {fileID: 0}
 --- !u!1 &8393923884460201395
 GameObject:
   m_ObjectHideFlags: 0

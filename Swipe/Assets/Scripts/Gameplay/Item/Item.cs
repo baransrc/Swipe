@@ -1,11 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Xml;
-using Gameplay;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Gameplay.Item
 {
@@ -14,6 +8,7 @@ namespace Gameplay.Item
     private ItemColor _itemColor;
     private Vector2 _size;
     private int _layerCount;
+    private int _initialLayerCount;
     private int _itemId;
     private GameController _gameController;
 
@@ -25,7 +20,8 @@ namespace Gameplay.Item
     {
         _gameController = gameController;
         _itemId = _gameController.GetItemId();
-        _layerCount = layerCount;
+        _initialLayerCount = layerCount;
+        _layerCount = _initialLayerCount;
         
         ChangeItemColor(itemColor);
         AlterLayerCount(0);
@@ -37,8 +33,17 @@ namespace Gameplay.Item
         _layerCount += valueToAdd;
         
         if (_layerCount < 0) _layerCount = 0;
-        
-        layerCountDisplay.SetText("{0}", _layerCount);
+
+        if (_layerCount != 1)
+        {
+            layerCountDisplay.SetText("{0}", _layerCount);
+        }
+
+        else
+        {
+            layerCountDisplay.SetText("");
+        }
+
     }
 
     public void DetermineColor()

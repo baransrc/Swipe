@@ -64,12 +64,12 @@ public class GameController : MonoBehaviour
         for (var i = 0; i < count; i++)
         {
             var previousItem = board.GetItem(board.GetItemCount() - 1); // Get highest item.
-            var position = previousItem != null ? previousItem.GetPosition().y + 1f : 6f;
+            var position = previousItem != null ? previousItem.GetPosition().y + FallManager.Padding : FallManager.InitialPosition;
             var itemGameObject = Instantiate(itemPrefab, new Vector3(0, position, 0), Quaternion.identity);
             
             var item = itemGameObject.GetComponent<Item>();
             board.AddItem(item);
-            item.Initialize(this, Random.Range(1, 4));
+            item.Initialize(this, 1);
         }
     }
 
