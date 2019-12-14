@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Dynamic;
 using Gameplay;
 using Gameplay.Item;
+using UI;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
     public TouchDetector touchDetector;
     public ColorPalette colorPalette;
+    public UIController uiController;
     public Board board;
     private int _itemId;
     private const int boardSize = 15;
+    private int _score;
     
     // For Now:
     public GameObject itemPrefab;
@@ -26,11 +30,15 @@ public class GameController : MonoBehaviour
     
     public void SetupEnvironment()
     {
+        uiController.Initialize();
         touchDetector.DetermineRadius();
+        
         _itemId = -1;
+        _score = 0;
         
         board = new Board();
         
+        uiController.SetScoreText(_score.ToString());
         CreateItems(boardSize);
     }
 
@@ -42,6 +50,12 @@ public class GameController : MonoBehaviour
     public void UnlockTouch()
     {
         touchDetector.UnlockTouch();
+    }
+
+    public void IncreaseScore(int addition)
+    {
+        _score += addition;
+        uiController.SetScoreText(_score.ToString());
     }
 
     public void ProcessTouch()

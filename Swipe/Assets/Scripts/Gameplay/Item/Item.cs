@@ -76,6 +76,8 @@ namespace Gameplay.Item
     {
         if (inputItemColor != _itemColor) return;
         
+        _gameController.IncreaseScore(1);
+        
         AlterLayerCount(-1);
 
         if (_layerCount != 0)
