@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour
             
             var item = itemGameObject.GetComponent<Item>();
             board.AddItem(item);
-            item.Initialize(this, 1);
+            item.Initialize(this, Random.Range(1, 4));
         }
     }
 

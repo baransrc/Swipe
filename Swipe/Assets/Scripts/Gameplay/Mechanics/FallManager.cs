@@ -3,7 +3,7 @@
 public class FallManager : MonoBehaviour
 {
     public GameController gameController;
-    public const float Threshold = -2.1f;
+    public const float Threshold = -2.45f;
     public const float Padding = 1.75f;
     public const float InitialPosition = 4f;
     private const float FallSpeed = 1.85f;
