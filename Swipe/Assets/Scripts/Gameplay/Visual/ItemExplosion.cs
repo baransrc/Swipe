@@ -9,6 +9,7 @@ public class ItemExplosion : MonoBehaviour, IExplosible
     public float MaxForce;
     public float ExplosionRadius;
     public Transform [] ShatterFragments;
+    public ShatterParticle ShatterParticle;
     private List<Vector3> _initialPositions;
 
     public void SetColor(Color color)
@@ -38,6 +39,8 @@ public class ItemExplosion : MonoBehaviour, IExplosible
 
             var explosionForce = UnityEngine.Random.Range(MinForce, MaxForce);
             var rotationForce = UnityEngine.Random.Range(MinForce, MaxForce);
+
+            rigidBody.bodyType = RigidbodyType2D.Dynamic; 
             
             AddExplosionForce(rigidBody, explosionForce, transform.position);
             AddRotationForce(rigidBody, rotationForce);
@@ -99,16 +102,23 @@ public class ItemExplosion : MonoBehaviour, IExplosible
 
     private IEnumerator TryExplode()
     {
-        yield return new WaitForSeconds(0.2f);
-        Explode();
-        yield return new WaitForSeconds(5f);
-        Reset();
+        Color [] colors = {Color.red, Color.blue, Color.yellow};
+
+        while(true)
+        {
+            SetColor(colors[UnityEngine.Random.Range(0, colors.Length)]);
+            yield return new WaitForSeconds(1f);
+            ShatterParticle.Enable(true);
+            Explode();
+            yield return new WaitForSeconds(3f);
+            ShatterParticle.Enable(false);
+            Reset();
+        }
     }
 
     private void Start() 
     {
         InitializeInitialPositions();
-        SetColor(Color.red);
         StartCoroutine(TryExplode());
     }
 }
